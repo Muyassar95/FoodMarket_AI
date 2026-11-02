@@ -2,7 +2,7 @@
 
 **Nom :** FoodMarket AI  
 **Domaine :** FoodTech, Data Science, Pricing Intelligence & Artificial Intelligence  
-**Date de lancement :** 1er novembre 2026  
+**Date de lancement :** 02 novembre 2026  
 **Durée de la V1 :** 60 jours  
 **Vision à long terme :** entreprise technologique évolutive, sans date de fin imposée.
 
