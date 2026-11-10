@@ -7,7 +7,7 @@
 **Technologies :** Python, Pandas, Requests, DuckDB, SQL, Plotly, Parquet  
 **Environnement :** Windows 11 — JupyterLab — Disque D:  
 **Notebook :** `05_enrichissement_normalisation.ipynb`  
-**Objectif d'échantillonnage :** 30 céréales distinctes
+**Objectif d'échantillonnage :** 50 céréales distinctes
 
 ---
 
@@ -226,14 +226,14 @@ Les valeurs manquantes ne sont pas remplacées artificiellement.
 
 | Contrôle | Résultat |
 |---|---|
-| Observations après jointure | À compléter |
-| Produits possédant un prix | À compléter |
-| Prix nuls ou négatifs | À compléter |
-| Dates manquantes ou invalides | À compléter |
-| Devises renseignées | À compléter |
-| Quantités insuffisantes pour normalisation | À compléter |
-| Prix/kg calculables | À compléter |
-| Conditionnements à vérifier | À compléter |
+| Observations après jointure | Oui (100%)|
+| Produits possédant un prix | Oui (100%)|
+| Prix nuls ou négatifs | Non (0%) |
+| Dates manquantes ou invalides | Non (0%)|
+| Devises renseignées | Oui (100%)|
+| Quantités insuffisantes pour normalisation | Non (0%) |
+| Prix/kg calculables | Oui (100%)|
+| Conditionnements à vérifier | Oui (100%)|
 
 ### 4.4. Traçabilité de la normalisation
 
@@ -310,7 +310,7 @@ Le graphique utilise :
 
 Objectif : explorer une éventuelle association descriptive entre le prix normalisé et la composition nutritionnelle.
 
-**Exports HTML effectivement créés :** à compléter.
+**Exports HTML effectivement créés :** Oui
 
 ### 5.5. Interprétation
 
