@@ -159,9 +159,9 @@ Le projet est conçu pour évoluer sur plusieurs décennies, au rythme des innov
 **Projet lancé le 1er novembre 2026.**
 
 - [x] J0 — Définition du périmètre et des objectifs
-- [ ] J1 — Acquisition des premières données
-- [ ] Analyse exploratoire
-- [ ] Structuration SQL
+- [x] J1 — Acquisition des premières données
+- [x] Analyse exploratoire
+- [x] Structuration SQL
 - [ ] Tableau de bord Power BI
 - [ ] Premiers modèles de Machine Learning
 - [ ] Expérimentations NLP
