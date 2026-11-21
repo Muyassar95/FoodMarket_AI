@@ -79,5 +79,115 @@ Les données présentées contiennent notamment :
 Python, Pandas, API REST, JSON, expressions régulières, nettoyage de données, gestion des valeurs manquantes, échantillonnage et préparation des analyses statistiques.
 
 ---
---
-*Journal évolutif : les prochaines journées seront ajoutées dans ce même fichier, sans multiplier les comptes rendus.*
+## J7 — Extension à 100 céréales & Pricing Intelligence concurrentielle
+
+**Date :** 21 novembre 2026  
+**Notebook :** `07_pricing_intelligence.ipynb`  
+**Statut :** À valider après exécution des contrôles finaux  
+**Technologies :** Python, Pandas, DuckDB, SQL, Plotly, Open Food Facts, Open Prices
+
+### 1. Objectifs
+
+- Étendre l'échantillon de **70 à 100 céréales distinctes**, soit 30 nouvelles références.
+- Consolider les données nutritionnelles et les quantités normalisées.
+- Développer une première analyse concurrentielle des prix au kilogramme.
+- Étudier les différences de prix par marque, magasin, période et promotion.
+- Appliquer des seuils minimaux pour limiter les interprétations fondées sur des effectifs insuffisants.
+
+### 2. Travaux et traitements prévus
+
+- Acquisition complémentaire de céréales via l'API Open Food Facts.
+- Vérification des codes-barres, suppression des doublons et conservation de la provenance des produits.
+- Extraction des quantités en grammes et conversion en kilogrammes.
+- Identification des conditionnements ambigus nécessitant une vérification.
+- Jointure des données produits avec les observations Open Prices à l'aide de DuckDB.
+- Calcul des prix normalisés en €/kg lorsque les données le permettent.
+- Préparation des statistiques descriptives et des visualisations interactives.
+
+**Ces traitements constituent le programme du J7 ; leur réalisation effective doit être confirmée dans le notebook.**
+
+### 3. Résultats et indicateurs
+
+| Indicateur | Résultat |
+|---|---|
+| Références initiales J6 | 70 |
+| Nouvelles références visées | 30 |
+| Total visé J7 | 100 |
+| Références uniques obtenues | 100 |
+| Produits avec quantité exploitable | 99 |
+| Produits avec prix/kg disponible | 99 |
+| Magasins identifiés | 15 |
+| Marques comparables | 5 |
+| Promotions vérifiables | 14 |
+
+### 4. Méthodologie de Pricing Intelligence
+
+Les comparaisons reposent sur les prix observés, normalisés au kilogramme lorsque le poids du produit et la nature du prix sont suffisamment établis.
+
+**Seuils exploratoires retenus :**
+
+| Analyse | Conditions minimales |
+|---|---|
+| Marques | 10 relevés, 3 produits et 2 magasins |
+| Magasins | 10 relevés et 3 produits |
+| Périodes mensuelles | 10 relevés, 3 produits et 2 magasins |
+| Promotions | 5 observations appariées exploitables, 3 produits et 2 magasins |
+
+Ces seuils sont des règles internes de filtrage, et non des garanties de représentativité statistique.
+
+Les comparaisons entre magasins privilégient les mêmes codes-barres sur des périodes communes. Les analyses temporelles privilégient les couples produit–magasin observés sur des mois consécutifs.
+
+### 5. Contrôles qualité et limites
+
+- Vérifier la correspondance entre codes-barres et produits.
+- Conserver les prix et quantités d'origine.
+- Signaler les lots et conditionnements ambigus.
+- Écarter les prix invalides des indicateurs normalisés.
+- Contrôler les devises, dates et lieux d'observation.
+- Distinguer les promotions des prix ordinaires.
+- Vérifier les effectifs avant toute comparaison.
+- Documenter les groupes insuffisamment représentés.
+
+**Limite principale :** les observations Open Prices ne constituent pas un échantillon représentatif de l'ensemble du marché. Les résultats décrivent uniquement les relevés disponibles.
+
+### 6. Difficultés et points de vigilance
+
+- Disponibilité variable des produits via l'API Open Food Facts.
+- Risques de doublons lors de l'acquisition complémentaire.
+- Conditionnements exprimés dans différents formats.
+- Couverture tarifaire potentiellement faible pour certaines céréales.
+- Informations de magasin et de promotions parfois incomplètes.
+- Risque de comparer des produits ou des périodes non équivalents.
+
+Les comparaisons insuffisamment documentées doivent être signalées plutôt que présentées comme des conclusions concurrentielles.
+
+### 7. Preuves et livrables
+
+**Notebook :**
+- `notebooks/07_pricing_intelligence.ipynb`
+
+**Données à vérifier :**
+- `data/processed/dim_cereales_j7.parquet`
+- `data/processed/fact_prix_cereales_j7.parquet`
+- `data/processed/j7_stats_marques.parquet`
+- `data/processed/j7_stats_magasins.parquet`
+- `data/processed/j7_stats_mois.parquet`
+- `data/processed/j7_promotions.parquet`
+
+**Visualisations prévues :**
+- Prix médian au kilogramme par marque.
+- Comparaison des magasins admissibles.
+- Évolution descriptive des prix par mois.
+- Analyse des promotions vérifiables.
+
+### 8. Compétences mobilisées
+
+- **Python / Pandas :** extraction, nettoyage et normalisation.
+- **SQL / DuckDB :** jointures, agrégations, médianes et fonctions de fenêtrage.
+- **Data Quality :** validation, traçabilité et contrôle des valeurs atypiques.
+- **Statistiques descriptives :** comparaison d'échantillons et gestion des faibles effectifs.
+- **Plotly :** visualisations interactives.
+- **Pricing Intelligence :** construction d'indicateurs concurrentiels.
+
+
+---
