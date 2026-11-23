@@ -189,5 +189,145 @@ Les comparaisons insuffisamment documentées doivent être signalées plutôt qu
 - **Plotly :** visualisations interactives.
 - **Pricing Intelligence :** construction d'indicateurs concurrentiels.
 
+- ---
+
+## J8 — Développement du dashboard Pricing & Nutrition Intelligence
+
+**Date :** 23 novembre 2026  
+**Notebook :** `08_dashboard_pricing.ipynb`  
+**Application :** `app_j8.py`  
+**Technologies :** Python, Pandas, Plotly, Streamlit, Parquet  
+**Statut :** Dashboard fonctionnel — validation des indicateurs à finaliser.
+
+### 1. Objectifs
+
+- Transformer les données préparées au J7 en une application interactive.
+- Centraliser les indicateurs de prix et les informations nutritionnelles.
+- Développer des filtres par marque, magasin, période, Nutri-Score et promotion.
+- Visualiser les comparaisons concurrentielles avec des effectifs minimaux.
+- Préparer une application réutilisable pour les futures analyses FoodMarket AI.
+
+### 2. Travaux réalisés
+
+- Chargement des données produits et des observations tarifaires depuis les fichiers Parquet.
+- Préparation des variables : prix/kg, dates, mois, marques, magasins et promotions.
+- Développement d'une interface interactive avec **Streamlit**.
+- Création de KPI : céréales référencées, produits avec prix/kg, relevés exploitables et magasins identifiés.
+- Intégration des filtres interactifs dans une barre latérale.
+- Programmation des analyses descriptives par marque, magasin et période.
+- Intégration d'une analyse des promotions lorsque les prix de référence sont disponibles.
+- Ajout d'une section Nutrition Intelligence avec comparaison des sucres et fibres selon le Nutri-Score.
+- Mise en place d'un tableau de contrôle qualité et d'un export CSV des observations filtrées.
+
+### 3. Résultats vérifiés
+
+- **Application Streamlit lancée avec succès** dans le navigateur.
+- Résolution du problème lié à l'utilisation de `__file__` dans JupyterLab.
+- Identification des avertissements `missing ScriptRunContext`, provoqués par l'exécution de Streamlit directement dans un notebook.
+- Séparation entre les traitements Jupyter (`.ipynb`) et l'application interactive (`.py`).
+- Configuration de l'environnement Python et des bibliothèques nécessaires.
+
+
+| Indicateur | Résultat |
+|---|---|
+| Céréales référencées | Oui |
+| Produits avec prix/kg exploitable | Oui |
+| Relevés de prix disponibles | Oui |
+| Magasins identifiés | Oui |
+| Marques disposant de relevés | Oui |
+| Périodes disponibles | Oui |
+| Promotions exploitables | Non |
+
+### 4. Contrôles qualité et limites
+
+- Conservation des prix manquants pour le diagnostic de couverture.
+- Exclusion des prix/kg invalides des indicateurs commerciaux.
+- Distinction entre prix ordinaires, promotionnels et statuts inconnus.
+- Agrégation des observations par produit, magasin et mois.
+- Application des seuils minimaux définis au J7 pour les comparaisons.
+- Signalement des analyses dont les effectifs sont insuffisants.
+- Vérification nécessaire de la cohérence des filtres et des KPI.
+
+**Limite :** le dashboard décrit les observations Open Prices disponibles. Il ne constitue pas une mesure représentative de l'ensemble du marché agroalimentaire.
+
+Les classements de marques et de magasins restent sensibles aux différences de produits et de périodes observés.
+
+### 5. Difficultés et solutions
+
+**Difficulté 1 — Variable `__file__` non définie**
+
+- Cause : exécution du code destiné à un script Python dans JupyterLab.
+- Solution : utilisation d'un chemin explicite dans le notebook, puis exécution de l'application dans un fichier `.py`.
+
+**Difficulté 2 — Avertissements Streamlit**
+
+- Erreurs rencontrées : `missing ScriptRunContext` et `Session state does not function`.
+- Cause : fonctions Streamlit exécutées sans le serveur d'application local.
+- Solution : lancement avec `python -m streamlit run app_j8.py`.
+
+**Difficulté 3 — Organisation du code**
+
+- Problème : coexistence des cellules Jupyter et des fonctionnalités Streamlit dans un même notebook.
+- Solution : séparation des traitements analytiques et du code de l'application.
+
+### 6. Preuves et livrables
+
+**Fichiers principaux :**
+
+- `notebooks/08_dashboard_pricing.ipynb`
+- `app_j8.py`
+- `data/processed/j8_dashboard_data.parquet`
+- `requirements.txt`
+
+**Fonctionnalités développées :**
+
+- Dashboard interactif Streamlit.
+- Filtres multidimensionnels.
+- KPI commerciaux.
+- Analyses des prix par marque, magasin et période.
+- Analyse des promotions.
+- Comparaisons nutritionnelles.
+- Contrôles qualité.
+- Export CSV.
+
+**Validation restante :** vérifier les valeurs affichées, tester les filtres individuellement et confirmer les fichiers présents dans le dépôt GitHub.
+
+### 7. Compétences acquises
+
+- **Python / Pandas :** préparation, nettoyage, jointures et agrégations.
+- **Plotly :** visualisations interactives.
+- **Streamlit :** développement d'applications Data Science.
+- **Data Engineering :** chargement et exploitation de fichiers Parquet.
+- **Business Intelligence :** création de KPI et de filtres.
+- **Data Quality :** contrôles de cohérence et gestion des effectifs insuffisants.
+- **Environnement Python :** gestion des bibliothèques, scripts et exécution locale.
+
+### 8. Prochaine étape — J9
+
+**Thématique : Comparaisons tarifaires avancées et fiabilisation concurrentielle.**
+
+Travaux prévus :
+
+1. Mesurer la couverture tarifaire réelle du référentiel de céréales.
+2. Identifier les mêmes produits observés dans plusieurs magasins.
+3. Comparer les prix à code-barres identique et période comparable.
+4. Calculer les écarts de prix en euros et en pourcentage.
+5. Approfondir les comparaisons concurrentielles par marque.
+6. Étudier les variations temporelles à produit et magasin constants.
+7. Enrichir progressivement le dashboard Streamlit.
+8. Consolider les indicateurs et les contrôles qualité.
+
+### 9. Bilan personnel
+
+Le J8 marque une évolution du projet FoodMarket AI : passage de notebooks d'analyse de données à une **première application interactive de Pricing & Nutrition Intelligence**.
+
+Le développement du dashboard a permis de mieux comprendre la séparation entre les traitements de données, la logique métier et l'interface utilisateur.
+
+**Résultat principal :** application Streamlit opérationnelle.
+
+**Point à améliorer :** renforcer la fiabilité des comparaisons tarifaires, la cohérence des filtres et la validation des indicateurs.
+
+---
+
 
 ---
