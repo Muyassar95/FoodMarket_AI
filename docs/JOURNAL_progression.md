@@ -189,7 +189,7 @@ Les comparaisons insuffisamment documentées doivent être signalées plutôt qu
 - **Plotly :** visualisations interactives.
 - **Pricing Intelligence :** construction d'indicateurs concurrentiels.
 
-- ---
+---
 
 ## J8 — Développement du dashboard Pricing & Nutrition Intelligence
 
@@ -329,5 +329,137 @@ Le développement du dashboard a permis de mieux comprendre la séparation entre
 
 ---
 
+## J9 — Pricing Intelligence avancée & comparaisons tarifaires
+
+**Date :** 25 novembre 2026  
+**Notebook :** `09_comparaison_prix.ipynb`  
+**Application :** `app_j8.py`  
+**Technologies :** Python, Pandas, DuckDB, SQL, Plotly, Streamlit  
+**Statut :** Analyses réalisées — validation finale des indicateurs à compléter.
+
+### 1. Objectifs
+
+- Fiabiliser les comparaisons tarifaires entre magasins.
+- Identifier les mêmes céréales observées dans plusieurs magasins.
+- Comparer les prix à code-barres identique et période comparable.
+- Calculer les écarts de prix en €/kg et en pourcentage.
+- Étudier les variations mensuelles à produit et magasin constants.
+- Intégrer les comparaisons admissibles au dashboard Streamlit.
+
+### 2. Travaux réalisés / préparés
+
+- Chargement des données produits et prix issues du J7.
+- Préparation des observations tarifaires exploitables.
+- Filtrage des prix invalides et des observations promotionnelles pour les comparaisons ordinaires.
+- Agrégation des prix médians par produit, magasin et mois.
+- Recherche des céréales communes à plusieurs magasins.
+- Mise en place de comparaisons appariées avec Pandas et DuckDB.
+- Calcul des écarts absolus et relatifs entre magasins.
+- Définition de seuils minimaux de comparaison.
+- Préparation des analyses descriptives par marque.
+- Recherche de variations de prix entre mois consécutifs.
+
+**Validation restante :** confirmer les effectifs et les exports des analyses concurrentielles.
+
+### 3. Résultats vérifiés
+
+**Analyse temporelle :**
+
+La recherche de variations mensuelles a été effectuée en comparant les mêmes produits dans les mêmes magasins sur des mois consécutifs.
+
+**Résultat observé :**
+
+`Pas assez de mois comparables pour construire une courbe.`
+
+Le nombre de périodes respectant les critères minimaux est insuffisant pour produire une visualisation temporelle fiable.
+
+**Interprétation :** cette limite ne signifie pas que les prix sont restés constants, mais que les données disponibles ne permettent pas de mesurer correctement leur évolution.
+
+**Autres indicateurs à compléter :**
+
+| Indicateur | Résultat |
+|---|---|
+| Céréales référencées | 100 |
+| Produits avec prix/kg | 76 |
+| Observations tarifaires exploitables | 731 |
+| Produits observés dans plusieurs magasins | 44 |
+| Comparaisons produit–magasin–mois | 632 |
+| Paires de magasins identifiées | 104 |
+| Paires respectant les seuils | 1 |
+| Mois admissibles pour la courbe temporelle | Moins de 2 |
+| Comparaisons par marque admissibles | 1 |
+
+### 4. Méthodologie
+
+**Comparaisons entre magasins :**
+
+- Association des observations selon le code-barres et le mois.
+- Calcul du prix médian au kilogramme par produit, magasin et mois.
+- Comparaison des mêmes références entre magasins.
+- Calcul des écarts de prix en euros et en pourcentage.
+
+**Seuils exploratoires retenus pour les paires de magasins :**
+
+- Au moins 5 comparaisons produit–mois.
+- Au moins 3 produits distincts.
+- Au moins 2 mois distincts.
+- Vérification d'un pays identique pour les magasins comparés.
+
+Ces seuils constituent des critères de filtrage internes et ne garantissent pas la représentativité statistique.
+
+### 5. Contrôles qualité et limites
+
+- Contrôle des codes-barres et identifiants de magasins.
+- Vérification des prix au kilogramme positifs.
+- Distinction entre promotions et prix ordinaires.
+- Détection des observations tarifaires incomplètes.
+- Réduction de la surreprésentation des relevés répétés grâce aux médianes.
+- Signalement des écarts de prix suspects.
+- Contrôle des effectifs avant publication des comparaisons.
+
+**Limite principale :** couverture insuffisante des observations historiques pour mesurer les variations de prix sur plusieurs mois.
+
+Les comparaisons entre magasins restent également dépendantes des produits, périodes et magasins effectivement couverts par Open Prices.
+
+### 6. Difficultés et solutions
+
+**Difficulté — Absence de série temporelle suffisamment documentée**
+
+- **Problème :** nombre insuffisant de mois comparables.
+- **Cause possible :** faible répétition des relevés pour les mêmes produits et magasins sur des mois consécutifs.
+- **Solution :** conserver les résultats disponibles, ne pas générer de courbe artificielle et documenter cette limite.
+- **Perspective :** approfondir la couverture historique et identifier les observations manquantes au J10.
+
+**Enseignement :** l'absence de résultats graphiques exploitables peut constituer un résultat pertinent d'un contrôle de qualité des données.
+
+### 7. Preuves et livrables
+
+**Notebook :**
+- `notebooks/09_comparaison_prix.ipynb`
+
+**Fichiers à vérifier après export :**
+- `data/processed/j9_prix_mensuels.parquet`
+- `data/processed/j9_paires_magasins.parquet`
+- `data/processed/j9_stats_paires.parquet`
+- `data/processed/j9_comparaisons_valides.parquet`
+- `data/processed/j9_stats_marques.parquet`
+- `data/processed/j9_variations_mensuelles.parquet`
+
+**Visualisations :**
+- Écarts de prix entre magasins : Oui.
+- Comparaison des produits identiques : Oui.
+- Courbe des variations mensuelles : non produite, faute de périodes admissibles.
+
+**Application Streamlit :** intégration des résultats J9 à confirmer.
+
+### 8. Compétences mobilisées
+
+- **Python / Pandas :** jointures, agrégations, calculs et filtrage.
+- **DuckDB / SQL :** identification des références communes et statistiques descriptives.
+- **Pricing Intelligence :** comparaisons à produit identique.
+- **Analyse temporelle :** comparaison de périodes consécutives.
+- **Data Quality :** contrôle de couverture, seuils minimaux et traçabilité.
+- **Plotly / Streamlit :** préparation des visualisations et de leur intégration au dashboard.
+- **Rigueur analytique :** distinction entre résultats exploitables et données insuffisantes.
 
 ---
